@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% if session.logged_in %}
+    <form action="{{ url_for('upload_file') }}" method=post enctype=multipart/form-data class=add-entry>
+        <dl>
+            <dt>Title:
+            <dd><input type=text size=30 name=title>
+            <dt>File:
+            <dd><input type=file name=file>
+            <dd><input type=submit value=Upload>
+            <dd><input type=hidden name=resid value={{ entry.resid }}>
+        </dl>
+    </form>
+  {% endif %}
+  <ul class=entries>
+    <li><h2><a href="/view/{{ entry.resid }}">{{ entry.title }}</a></h2>{{ entry.text|safe }}
+    <ul>
+    {% for file in files %}
+        <li><a href="/uploads/{{ file.filename }}">{{ file.title }}</a>
+    {% endfor %}
+    </ul>
+  </ul>
+{% endblock %}
